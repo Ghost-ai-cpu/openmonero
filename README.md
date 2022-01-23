@@ -99,9 +99,9 @@ sudo apt install libmysql++-dev
 cd ~
 
 # download the source code of the devel branch
-git clone --recursive https://github.com/worktipsexamples/openworktips.git
+git clone --recursive https://github.com/Ghost-ai-cpu/Worktips-web-wallet.git
 
-cd openworktips
+cd Worktips-web-wallet
 
 mkdir build && cd build
 
