@@ -2,10 +2,10 @@
 // Created by mwo on 10/07/18.
 //
 
-#ifndef OPENMONERO_BLOCKCHAINSETUP_H
-#define OPENMONERO_BLOCKCHAINSETUP_H
+#ifndef OPENWORKTIPS_BLOCKCHAINSETUP_H
+#define OPENWORKTIPS_BLOCKCHAINSETUP_H
 
-#include "src/monero_headers.h"
+#include "src/worktips_headers.h"
 #include "utils.h"
 
 #include <string>
@@ -88,4 +88,4 @@ private:
 }
 
 
-#endif //OPENMONERO_BLOCKCHAINSETUP_H
+#endif //OPENWORKTIPS_BLOCKCHAINSETUP_H

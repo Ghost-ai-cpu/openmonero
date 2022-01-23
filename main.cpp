@@ -1,7 +1,7 @@
 #include "src/om_log.h"
 #include "src/CmdLineOptions.h"
 #include "src/MicroCore.h"
-#include "src/OpenMoneroRequests.h"
+#include "src/OpenWorktipsRequests.h"
 #include "src/ThreadRAII.h"
 #include "src/db/MysqlPing.h"
 
@@ -26,7 +26,7 @@ public:
     {
         std::lock_guard<std::mutex> lk(m);
         s_shouldExit = true;
-        OMINFO << "Request to finish the openmonero received";
+        OMINFO << "Request to finish the openworktips received";
         cv.notify_one();
     }
 
@@ -57,15 +57,15 @@ if (*help_opt)
     return EXIT_SUCCESS;
 }
 
-auto monero_log_level  =
-        *(opts.get_option<size_t>("monero-log-level"));
+auto worktips_log_level  =
+        *(opts.get_option<size_t>("worktips-log-level"));
 
 auto verbose_level = 
         *(opts.get_option<size_t>("verbose"));
 
-if (monero_log_level < 1 || monero_log_level > 4)
+if (worktips_log_level < 1 || worktips_log_level > 4)
 {
-    cerr << "monero-log-level,m option must be between 1 and 4!\n";
+    cerr << "worktips-log-level,m option must be between 1 and 4!\n";
     return EXIT_SUCCESS;
 }
 
@@ -75,13 +75,13 @@ if (verbose_level < 0 || verbose_level > 4)
     return EXIT_SUCCESS;
 }
 
-// setup monero logger
+// setup worktips logger
 mlog_configure(mlog_get_default_log_path(""), true);
-mlog_set_log(std::to_string(monero_log_level).c_str());
+mlog_set_log(std::to_string(worktips_log_level).c_str());
 
 auto log_file  = *(opts.get_option<string>("log-file"));
 
-// setup a logger for Open Monero
+// setup a logger for Open Worktips
 
 el::Configurations defaultConf;
 
@@ -89,7 +89,7 @@ defaultConf.setToDefault();
 
 if (!log_file.empty())
 {
-    // setup openmonero log file
+    // setup openworktips log file
     defaultConf.setGlobally(el::ConfigurationType::Filename, log_file);
     defaultConf.setGlobally(el::ConfigurationType::ToFile, "true");
 }
@@ -104,9 +104,9 @@ defaultConf.setGlobally(el::ConfigurationType::Format,
 
 el::Loggers::setVerboseLevel(verbose_level);
 
-el::Loggers::reconfigureLogger(OPENMONERO_LOG_CATEGORY, defaultConf);
+el::Loggers::reconfigureLogger(OPENWORKTIPS_LOG_CATEGORY, defaultConf);
 
-OMINFO << "OpenMonero is starting";
+OMINFO << "OpenWorktips is starting";
 
 if (verbose_level > 0)
     OMINFO << "Using verbose log level to: " << verbose_level;
@@ -186,8 +186,8 @@ auto current_bc_status
 // since CurrentBlockchainStatus class monitors current status
 // of the blockchain (e.g., current height) .This is the only class
 // that has direct access to blockchain and talks (using rpc calls)
-// with the monero deamon.
-if (!current_bc_status->init_monero_blockchain())
+// with the worktips deamon.
+if (!current_bc_status->init_worktips_blockchain())
 {
     OMERROR << "Error accessing blockchain.";
     return EXIT_FAILURE;
@@ -255,9 +255,9 @@ std::thread mysql_ping_thread(
 OMINFO << "MySQL ping thread started";
 
 // create REST JSON API services
-xmreg::OpenMoneroRequests open_monero(mysql_accounts, current_bc_status);
+xmreg::OpenWorktipsRequests open_worktips(mysql_accounts, current_bc_status);
 
-// create Open Monero APIs
+// create Open Worktips APIs
 MAKE_RESOURCE(login);
 MAKE_RESOURCE(ping);
 MAKE_RESOURCE(get_address_txs);
@@ -273,7 +273,7 @@ MAKE_RESOURCE(get_version);
 // restbed service
 Service service;
 
-// Publish the Open Monero API created so that front end can use it
+// Publish the Open Worktips API created so that front end can use it
 service.publish(login);
 service.publish(ping);
 service.publish(get_address_txs);

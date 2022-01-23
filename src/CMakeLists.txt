@@ -8,7 +8,7 @@ set(SOURCE_FILES
         db/MySqlConnector.cpp
         db/MySqlAccounts.cpp
         db/ssqlses.cpp
-		OpenMoneroRequests.cpp
+		OpenWorktipsRequests.cpp
 		TxSearch.cpp
         RPCCalls.cpp
 		omversion.h.in

@@ -36,7 +36,7 @@ get_tx_pub_key_from_str_hash(Blockchain& core_storage, const string& hash_str, t
 }
 
 /**
- * Parse monero address in a string form into
+ * Parse worktips address in a string form into
  * cryptonote::account_public_address object
  */
 

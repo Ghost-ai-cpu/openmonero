@@ -24,7 +24,7 @@ RPCCalls::RPCCalls(string _deamon_url, chrono::seconds _timeout)
 }
 
 bool
-RPCCalls::connect_to_monero_deamon()
+RPCCalls::connect_to_worktips_deamon()
 {
     if(m_http_client.is_connected())
     {

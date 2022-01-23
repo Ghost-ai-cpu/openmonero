@@ -19,35 +19,35 @@ jobs:
                  libjsoncpp-dev uuid-dev libmysql++-dev 
       - checkout
       - run:
-          name: Get Last monero commit hash 
+          name: Get Last worktips commit hash 
           command: |
-              export MONERO_COMMIT=`git ls-remote https://github.com/monero-project/monero HEAD | head -n1 | awk '{print $1;}'`
-              echo $MONERO_COMMIT > ~/monerocommit
-              cat ~/monerocommit
+              export WORKTIPS_COMMIT=`git ls-remote https://github.com/worktips-project/worktips HEAD | head -n1 | awk '{print $1;}'`
+              echo $WORKTIPS_COMMIT > ~/worktipscommit
+              cat ~/worktipscommit
       - restore_cache:
-          key: v01-monero-{{ checksum "~/monerocommit" }}
+          key: v01-worktips-{{ checksum "~/worktipscommit" }}
       - run:
-          name: Compile Monero
+          name: Compile Worktips
           command: |
-                  if [ ! -d "monero" ]; then 
-                  git clone --recurse-submodules https://github.com/monero-project/monero.git 
-                  cd monero
+                  if [ ! -d "worktips" ]; then 
+                  git clone --recurse-submodules https://github.com/worktips-project/worktips.git 
+                  cd worktips
                   mkdir -p build/release && cd build/release
                   cmake -D CMAKE_BUILD_TYPE=Release ../..
                   cmake --build . --target cryptonote_core -- -j 2
                   cd ../..
                   fi
       - save_cache: 
-          key: v01-monero-{{ checksum "~/monerocommit" }}
+          key: v01-worktips-{{ checksum "~/worktipscommit" }}
           paths: 
-            - "monero"
+            - "worktips"
       - run:
           name: Get submodules
           command: |
               git submodule update --init --recursive
       - run:
           name: Creating Build Files 
-          command: 'cmake -DMONERO_DIR=/root/project/monero -DBUILD_TESTS=ON -H. -Bbuild'
+          command: 'cmake -DWORKTIPS_DIR=/root/project/worktips -DBUILD_TESTS=ON -H. -Bbuild'
       - run:
           name: Creating Binary Files
           command: 'cmake --build build -- -j 2'

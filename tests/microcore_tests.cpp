@@ -227,7 +227,7 @@ TEST_P(BlockchainSetupTest, WrongBlockchainPath)
 }
 
 INSTANTIATE_TEST_CASE_P(
-        DifferentMoneroNetworks, BlockchainSetupTest,
+        DifferentWorktipsNetworks, BlockchainSetupTest,
         ::testing::Values(
                 network_type::MAINNET,
                 network_type::TESTNET,

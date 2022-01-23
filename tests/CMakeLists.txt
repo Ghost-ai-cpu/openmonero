@@ -33,7 +33,7 @@ add_om_test(txsearch)
 
 #set(COVERAGE_LCOV_EXCLUDES
     #'*/ext/*' '*boost/*' '*c++/*'
-     #'*/monero/*' '*googletest/*' '*googlemock/*'
+     #'*/worktips/*' '*googletest/*' '*googlemock/*'
      #'*restbed/*' '*/mysql++/*' '*tests/*'
      #'*src/xmregcore/*')
 

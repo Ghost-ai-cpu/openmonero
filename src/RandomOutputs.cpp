@@ -21,7 +21,7 @@ RandomOutputs::RandomOutputs(
 {
 }
 
-// copied a lot from monero-lws
+// copied a lot from worktips-lws
 bool
 RandomOutputs::get_outputs_per_second(
         std::vector<uint64_t> rct_offsets,

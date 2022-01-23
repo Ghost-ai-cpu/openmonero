@@ -3,7 +3,7 @@
 //
 
 #include "src/MicroCore.h"
-#include "../src/OpenMoneroRequests.h"
+#include "../src/OpenWorktipsRequests.h"
 #include "../src/db/MysqlPing.h"
 
 //#include "chaingen.h"
@@ -145,7 +145,7 @@ TEST(MYSQL_CONNECTION, CanConnect)
 
 
 /**
-* Fixture that connects to openmonero_test database
+* Fixture that connects to openworktips_test database
 * and repopulates it with known data for each test.
 */
 class MYSQL_TEST : public ::testing::Test
@@ -167,7 +167,7 @@ public:
         xmreg::MySqlConnector::password = db_config["password"];
         xmreg::MySqlConnector::dbname = db_config["dbname"];
 
-        db_data = xmreg::read("../sql/openmonero_test.sql");
+        db_data = xmreg::read("../sql/openworktips_test.sql");
     }
 
 protected:

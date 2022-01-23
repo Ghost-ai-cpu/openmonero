@@ -6,8 +6,8 @@
 #include "src/UniversalIdentifier.hpp"
 
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "openmonero"
+#undef WORKTIPS_DEFAULT_LOG_CATEGORY
+#define WORKTIPS_DEFAULT_LOG_CATEGORY "openworktips"
 
 namespace xmreg
 {
@@ -97,9 +97,9 @@ CurrentBlockchainStatus::update_current_blockchain_height()
     uint64_t tmp {0};
 
     // This rpc call not only gets the blockchain height
-    // but it also serves as a "ping" into the Monero
+    // but it also serves as a "ping" into the Worktips
     // deamon to keep the connection between the
-    // openmonero backend and the deamon alive
+    // openworktips backend and the deamon alive
     if (rpc->get_current_height(tmp))
     {
         current_height = tmp - 1;
@@ -110,7 +110,7 @@ CurrentBlockchainStatus::update_current_blockchain_height()
 }
 
 bool
-CurrentBlockchainStatus::init_monero_blockchain()
+CurrentBlockchainStatus::init_worktips_blockchain()
 {
     // initialize the core using the blockchain path
     return mcore->init(bc_setup.blockchain_path, bc_setup.net_type);}
@@ -1289,8 +1289,8 @@ CurrentBlockchainStatus::construct_output_rct_field(
             //// not the ones we actually spend.
             //// ringct coinbase txs are special. they have identity mask.
             //// as suggested by this code:
-            //// https://github.com/monero-project/monero/blob/eacf2124b6822d088199179b18d4587404408e0f/src/wallet/wallet2.cpp#L893
-            //// https://github.com/monero-project/monero/blob/master/src/blockchain_db/blockchain_db.cpp#L100
+            //// https://github.com/worktips-project/worktips/blob/eacf2124b6822d088199179b18d4587404408e0f/src/wallet/wallet2.cpp#L893
+            //// https://github.com/worktips-project/worktips/blob/master/src/blockchain_db/blockchain_db.cpp#L100
             //// rtc_mask   = pod_to_hex(rct::identity());
         //}
 

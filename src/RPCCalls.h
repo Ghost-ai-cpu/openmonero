@@ -6,7 +6,7 @@
 #ifndef CROWXMR_RPCCALLS_H
 #define CROWXMR_RPCCALLS_H
 
-#include "src/monero_headers.h"
+#include "src/worktips_headers.h"
 
 #include <mutex>
 #include <chrono>
@@ -41,7 +41,7 @@ public:
              chrono::seconds _timeout = 3min + 30s);
 
     virtual bool
-    connect_to_monero_deamon();
+    connect_to_worktips_deamon();
 
     virtual bool
     commit_tx(const string& tx_blob,

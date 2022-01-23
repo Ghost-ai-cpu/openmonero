@@ -5,7 +5,7 @@
 #define MYSQLPP_SSQLS_NO_STATICS 1
 
 
-#include "OpenMoneroRequests.h"
+#include "OpenWorktipsRequests.h"
 #include "src/UniversalIdentifier.hpp"
 
 #include "db/ssqlses.h"
@@ -30,7 +30,7 @@ handel_::operator()(const shared_ptr< Session > session)
 
 
 
-OpenMoneroRequests::OpenMoneroRequests(
+OpenWorktipsRequests::OpenWorktipsRequests(
         shared_ptr<MySqlAccounts> _acc, 
         shared_ptr<CurrentBlockchainStatus> _current_bc_status):
     xmr_accounts {_acc}, current_bc_status {_current_bc_status}
@@ -40,7 +40,7 @@ OpenMoneroRequests::OpenMoneroRequests(
 
 
 void
-OpenMoneroRequests::login(const shared_ptr<Session> session, const Bytes & body)
+OpenWorktipsRequests::login(const shared_ptr<Session> session, const Bytes & body)
 {
     json j_response;
     json j_request;
@@ -158,7 +158,7 @@ OpenMoneroRequests::login(const shared_ptr<Session> session, const Bytes & body)
 }
 
 void
-OpenMoneroRequests::ping(const shared_ptr<Session> session, const Bytes & body)
+OpenWorktipsRequests::ping(const shared_ptr<Session> session, const Bytes & body)
 {
     json j_response;
     json j_request;
@@ -214,7 +214,7 @@ OpenMoneroRequests::ping(const shared_ptr<Session> session, const Bytes & body)
 }
 
 void
-OpenMoneroRequests::get_address_txs(
+OpenWorktipsRequests::get_address_txs(
         const shared_ptr< Session > session, const Bytes & body)
 {
     json j_response;
@@ -251,7 +251,7 @@ OpenMoneroRequests::get_address_txs(
     j_response = json {
             {"total_received"         , 0},    // calculated in this function
             {"total_received_unlocked", 0},    // calculated in this function
-            {"scanned_height"         , 0},    // not used. just to match mymonero
+            {"scanned_height"         , 0},    // not used. just to match myworktips
             {"scanned_block_height"   , 0},    // taken from Accounts table
             {"scanned_block_timestamp", 0},    // taken from Accounts table
             {"start_height"           , 0},    // blockchain height whencreated
@@ -432,7 +432,7 @@ OpenMoneroRequests::get_address_txs(
 }
 
 void
-OpenMoneroRequests::get_address_info(
+OpenWorktipsRequests::get_address_info(
         const shared_ptr< Session > session, const Bytes & body)
 {
     json j_response;
@@ -469,11 +469,11 @@ OpenMoneroRequests::get_address_info(
             {"locked_funds"           , "0"},    // locked xmr (e.g., younger than 10 blocks)
             {"total_received"         , "0"},    // calculated in this function
             {"total_sent"             , "0"},    // calculated in this function
-            {"scanned_height"         , 0},    // not used. it is here to match mymonero
+            {"scanned_height"         , 0},    // not used. it is here to match myworktips
             {"scanned_block_height"   , 0},    // taken from Accounts table
             {"scanned_block_timestamp", 0},    // taken from Accounts table
             {"start_height"           , 0},    // not used, but available in Accounts table.
-                                               // it is here to match mymonero
+                                               // it is here to match myworktips
             {"blockchain_height"      , 0},    // current blockchain height
             {"spent_outputs"          , nullptr} // list of spent outputs that we think
                                                // user has spent. client side will
@@ -598,7 +598,7 @@ OpenMoneroRequests::get_address_info(
 
 
 void
-OpenMoneroRequests::get_unspent_outs(
+OpenWorktipsRequests::get_unspent_outs(
         const shared_ptr< Session > session,
         const Bytes & body)
 {
@@ -730,11 +730,11 @@ OpenMoneroRequests::get_unspent_outs(
                     // default case. it will cover 
                     // rct types 1 (Full) and 2 (Simple)
                     // rct types explained here: 
-                    // https://monero.stackexchange.com/questions/3348/what-are-3-types-of-ring-ct-transactions
+                    // https://worktips.stackexchange.com/questions/3348/what-are-3-types-of-ring-ct-transactions
                     string rct = out.get_rct();
 
                     // based on 
-                    // https://github.com/mymonero/mymonero-app-js/issues/277#issuecomment-469395825
+                    // https://github.com/myworktips/myworktips-app-js/issues/277#issuecomment-469395825
 
                     if (!tx.is_rct)
                     {
@@ -849,7 +849,7 @@ OpenMoneroRequests::get_unspent_outs(
 }
 
 void
-OpenMoneroRequests::get_random_outs(
+OpenWorktipsRequests::get_random_outs(
         const shared_ptr< Session > session, const Bytes & body)
 {
     json j_request;
@@ -952,7 +952,7 @@ OpenMoneroRequests::get_random_outs(
     {
         j_response["status"] = "error";
         j_response["error"]  = "Error getting random "
-                               "outputs from monero deamon";
+                               "outputs from worktips deamon";
     }
 
     string response_body = j_response.dump();
@@ -965,7 +965,7 @@ OpenMoneroRequests::get_random_outs(
 
 
 void
-OpenMoneroRequests::submit_raw_tx(
+OpenWorktipsRequests::submit_raw_tx(
         const shared_ptr< Session > session, const Bytes & body)
 {
     json j_request = body_to_json(body);
@@ -1057,9 +1057,9 @@ OpenMoneroRequests::submit_raw_tx(
 //@todo current import_wallet_request end point
 // still requires some work. The reason is that 
 // at this moment it is not clear how it is
-// handled in mymonero-app-js
+// handled in myworktips-app-js
 void
-OpenMoneroRequests::import_wallet_request(
+OpenWorktipsRequests::import_wallet_request(
         const shared_ptr< Session > session, const Bytes & body)
 {
 
@@ -1368,7 +1368,7 @@ OpenMoneroRequests::import_wallet_request(
 
 
 void
-OpenMoneroRequests::import_recent_wallet_request(
+OpenWorktipsRequests::import_recent_wallet_request(
         const shared_ptr< Session > session, const Bytes & body)
 {
     json j_response;
@@ -1521,7 +1521,7 @@ OpenMoneroRequests::import_recent_wallet_request(
 
 
 void
-OpenMoneroRequests::get_tx(
+OpenWorktipsRequests::get_tx(
         const shared_ptr< Session > session, const Bytes & body)
 {
     json j_response;
@@ -1896,7 +1896,7 @@ OpenMoneroRequests::get_tx(
 
 
 void
-OpenMoneroRequests::get_version(
+OpenWorktipsRequests::get_version(
         const shared_ptr< Session > session,
         const Bytes & body)
 {
@@ -1907,8 +1907,8 @@ OpenMoneroRequests::get_version(
         {"last_git_commit_hash", string {GIT_COMMIT_HASH}},
         {"last_git_commit_date", string {GIT_COMMIT_DATETIME}},
         {"git_branch_name"     , string {GIT_BRANCH_NAME}},
-        {"monero_version_full" , string {MONERO_VERSION_FULL}},
-        {"api"                 , OPENMONERO_RPC_VERSION},
+        {"worktips_version_full" , string {WORKTIPS_VERSION_FULL}},
+        {"api"                 , OPENWORKTIPS_RPC_VERSION},
         {"testnet"             , current_bc_status->get_bc_setup().net_type
                     == network_type::TESTNET},
         {"network_type"        , current_bc_status->get_bc_setup().net_type},
@@ -1925,8 +1925,8 @@ OpenMoneroRequests::get_version(
 
 
 shared_ptr<Resource>
-OpenMoneroRequests::make_resource(
-        function< void (OpenMoneroRequests&, const shared_ptr< Session >,
+OpenWorktipsRequests::make_resource(
+        function< void (OpenWorktipsRequests&, const shared_ptr< Session >,
                         const Bytes& ) > handle_func,
         const string& path)
 {
@@ -1945,7 +1945,7 @@ OpenMoneroRequests::make_resource(
 
 
 void
-OpenMoneroRequests::generic_options_handler(
+OpenWorktipsRequests::generic_options_handler(
         const shared_ptr< Session > session )
 {
     const auto request = session->get_request( );
@@ -1962,7 +1962,7 @@ OpenMoneroRequests::generic_options_handler(
 
 
 multimap<string, string>
-OpenMoneroRequests::make_headers(
+OpenWorktipsRequests::make_headers(
         const multimap<string, string>& extra_headers)
 {
     multimap<string, string> headers {
@@ -1977,20 +1977,20 @@ OpenMoneroRequests::make_headers(
 };
 
 void
-OpenMoneroRequests::print_json_log(const string& text, const json& j)
+OpenWorktipsRequests::print_json_log(const string& text, const json& j)
 {
     cout << text << '\n' << j.dump(4) << endl;
 }
 
 
 string
-OpenMoneroRequests::body_to_string(const Bytes & body)
+OpenWorktipsRequests::body_to_string(const Bytes & body)
 {
     return string(reinterpret_cast<const char *>(body.data()), body.size());
 }
 
 json
-OpenMoneroRequests::body_to_json(const Bytes & body)
+OpenWorktipsRequests::body_to_json(const Bytes & body)
 {
     json j = json::parse(body_to_string(body));
     return j;
@@ -1998,13 +1998,13 @@ OpenMoneroRequests::body_to_json(const Bytes & body)
 
 
 uint64_t
-OpenMoneroRequests::get_current_blockchain_height() const
+OpenWorktipsRequests::get_current_blockchain_height() const
 {
     return current_bc_status->get_current_blockchain_height();
 }
 
 bool
-OpenMoneroRequests::login_and_start_search_thread(
+OpenWorktipsRequests::login_and_start_search_thread(
                         const string& xmr_address,
                         const string& view_key,
                         XmrAccount& acc,
@@ -2104,7 +2104,7 @@ OpenMoneroRequests::login_and_start_search_thread(
 
 
 bool
-OpenMoneroRequests::parse_request(
+OpenWorktipsRequests::parse_request(
         const Bytes& body,
         vector<string>& values_map,
         json& j_request,
@@ -2134,7 +2134,7 @@ OpenMoneroRequests::parse_request(
     }
     catch (std::exception& e)
     {
-        cerr << "OpenMoneroRequests::parse_request: " << e.what() << endl;
+        cerr << "OpenWorktipsRequests::parse_request: " << e.what() << endl;
 
         j_response["status"] = "error";
         j_response["reason"] = "reqest json parsing failed";
@@ -2145,7 +2145,7 @@ OpenMoneroRequests::parse_request(
 
 
 boost::optional<XmrAccount>
-OpenMoneroRequests::create_account(
+OpenWorktipsRequests::create_account(
         string const& xmr_address,
         string const& view_key,
         bool generated_locally) const
@@ -2192,7 +2192,7 @@ OpenMoneroRequests::create_account(
     //wallets. The simples way is when import is free and this
     //should already work. More problematic is how to set these
     //fields when import fee is non-zero. It depends
-    //how mymonero is doing this. At the momemnt, I'm not sure.
+    //how myworktips is doing this. At the momemnt, I'm not sure.
     
     uint64_t start_height  =  current_blockchain_height;
     uint64_t scanned_block_height = current_blockchain_height;
@@ -2249,7 +2249,7 @@ OpenMoneroRequests::create_account(
 }
 
 boost::optional<XmrAccount>
-OpenMoneroRequests::select_account(
+OpenWorktipsRequests::select_account(
         string const& xmr_address,
         string const& view_key,
         bool create_if_notfound) const 
@@ -2300,7 +2300,7 @@ OpenMoneroRequests::select_account(
 }
 
 bool 
-OpenMoneroRequests::make_search_thread(
+OpenWorktipsRequests::make_search_thread(
         XmrAccount& acc) const 
 {
     if (current_bc_status->search_thread_exist(acc.address))
@@ -2327,7 +2327,7 @@ OpenMoneroRequests::make_search_thread(
 }
 
 boost::optional<XmrPayment>
-OpenMoneroRequests::select_payment(
+OpenWorktipsRequests::select_payment(
         XmrAccount const& xmr_account) const
 {
      vector<XmrPayment> xmr_payments;
@@ -2374,7 +2374,7 @@ OpenMoneroRequests::select_payment(
 }
 
 void
-OpenMoneroRequests::session_close(
+OpenWorktipsRequests::session_close(
         const shared_ptr< Session > session,
         json& j_response,
         int return_code,

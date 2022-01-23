@@ -26,7 +26,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-class HostedMoneroAPIClient
+class HostedWorktipsAPIClient
 {
     constructor(options)
     {
@@ -190,10 +190,10 @@ thinwalletCtrls.controller('SendCoinsCtrl', function($scope, $http, $q, AccountS
         $scope.error = "";
         $scope.submitting = true;
         //
-        mymonero_core_js.monero_utils_promise.then(function(coreBridge_instance)
+        myworktips_core_js.worktips_utils_promise.then(function(coreBridge_instance)
         {
             if (targets.length > 1) {
-                throw "MyMonero currently only supports one target"
+                throw "MyWorktips currently only supports one target"
             }
             const target = targets[0]
             if (!target.address && !target.amount) {
@@ -308,7 +308,7 @@ thinwalletCtrls.controller('SendCoinsCtrl', function($scope, $http, $q, AccountS
             //
             function sendTo(target_address, amount, domain/*may be null*/)
             {
-                const mixin = 10; // mandatory fixed mixin for v8 Monero fork
+                const mixin = 10; // mandatory fixed mixin for v8 Worktips fork
                 let statusUpdate_messageBase = sweeping ? `Sending wallet balance…` : `Sending ${amount} XMR…`
                 function _configureWith_statusUpdate(str, code)
                 {
@@ -320,10 +320,10 @@ thinwalletCtrls.controller('SendCoinsCtrl', function($scope, $http, $q, AccountS
                 //
                 const sec_keys = AccountService.getSecretKeys()
                 const pub_keys = AccountService.getPublicKeys()
-                const apiClient = new HostedMoneroAPIClient({ $http: $http })
+                const apiClient = new HostedWorktipsAPIClient({ $http: $http })
                 var parsed_amount;
                 try {
-                    parsed_amount = mymonero_core_js.monero_amount_format_utils.parseMoney(target.amount);
+                    parsed_amount = myworktips_core_js.worktips_amount_format_utils.parseMoney(target.amount);
                 } catch (e) {
                     fn("Please enter a valid amount");
                     return
@@ -366,7 +366,7 @@ thinwalletCtrls.controller('SendCoinsCtrl', function($scope, $http, $q, AccountS
                     //
                     status_update_fn: function(params)
                     {
-                        let suffix = mymonero_core_js.monero_sendingFunds_utils.SendFunds_ProcessStep_MessageSuffix[params.code]
+                        let suffix = myworktips_core_js.worktips_sendingFunds_utils.SendFunds_ProcessStep_MessageSuffix[params.code]
                         _configureWith_statusUpdate(
                             statusUpdate_messageBase + " " + suffix, // TODO: localize this concatenation
                             params.code
@@ -381,7 +381,7 @@ thinwalletCtrls.controller('SendCoinsCtrl', function($scope, $http, $q, AccountS
                         const total_sent__JSBigInt = new JSBigInt(params.total_sent)
                         const tx_fee = new JSBigInt(params.used_fee)
                         const total_sent__atomicUnitString = total_sent__JSBigInt.toString()
-                        const total_sent__floatString = mymonero_core_js.monero_amount_format_utils.formatMoney(total_sent__JSBigInt) 
+                        const total_sent__floatString = myworktips_core_js.worktips_amount_format_utils.formatMoney(total_sent__JSBigInt) 
                         const total_sent__float = parseFloat(total_sent__floatString)
                         //
                         const mockedTransaction = 

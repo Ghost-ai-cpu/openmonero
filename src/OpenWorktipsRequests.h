@@ -2,8 +2,8 @@
 // Created by mwo on 8/12/16.
 //
 
-#ifndef RESTBED_XMR_YOURMONEROREQUESTS_H
-#define RESTBED_XMR_YOURMONEROREQUESTS_H
+#ifndef RESTBED_XMR_YOURWORKTIPSREQUESTS_H
+#define RESTBED_XMR_YOURWORKTIPSREQUESTS_H
 
 #include <iostream>
 #include <functional>
@@ -14,8 +14,8 @@
 #include "../ext/restbed/source/restbed"
 
 #ifndef MAKE_RESOURCE
-#define MAKE_RESOURCE(name) auto name = open_monero.make_resource( \
-                           &xmreg::OpenMoneroRequests::name, "/" + string(#name));
+#define MAKE_RESOURCE(name) auto name = open_worktips.make_resource( \
+                           &xmreg::OpenWorktipsRequests::name, "/" + string(#name));
 #endif
 
 
@@ -27,11 +27,11 @@
 // whether they can talk to a given backend without having to know in
 // advance which version they will stop working with
 // Don't go over 32767 for any of these
-#define OPENMONERO_RPC_VERSION_MAJOR 1
-#define OPENMONERO_RPC_VERSION_MINOR 6
-#define MAKE_OPENMONERO_RPC_VERSION(major,minor) (((major)<<16)|(minor))
-#define OPENMONERO_RPC_VERSION \
-    MAKE_OPENMONERO_RPC_VERSION(OPENMONERO_RPC_VERSION_MAJOR, OPENMONERO_RPC_VERSION_MINOR)
+#define OPENWORKTIPS_RPC_VERSION_MAJOR 1
+#define OPENWORKTIPS_RPC_VERSION_MINOR 6
+#define MAKE_OPENWORKTIPS_RPC_VERSION(major,minor) (((major)<<16)|(minor))
+#define OPENWORKTIPS_RPC_VERSION \
+    MAKE_OPENWORKTIPS_RPC_VERSION(OPENWORKTIPS_RPC_VERSION_MAJOR, OPENWORKTIPS_RPC_VERSION_MINOR)
 
 
 namespace xmreg
@@ -54,7 +54,7 @@ struct handel_
 };
 
 
-class OpenMoneroRequests
+class OpenWorktipsRequests
 {
 
     // this manages all mysql queries
@@ -63,7 +63,7 @@ class OpenMoneroRequests
 
 public:
 
-    OpenMoneroRequests(shared_ptr<MySqlAccounts> _acc,
+    OpenWorktipsRequests(shared_ptr<MySqlAccounts> _acc,
                        shared_ptr<CurrentBlockchainStatus> _current_bc_status);
 
     /**
@@ -113,7 +113,7 @@ public:
     get_version(const shared_ptr< Session > session, const Bytes & body);
 
     shared_ptr<Resource>
-    make_resource(function< void (OpenMoneroRequests&, const shared_ptr< Session >, const Bytes& ) > handle_func,
+    make_resource(function< void (OpenWorktipsRequests&, const shared_ptr< Session >, const Bytes& ) > handle_func,
                   const string& path);
 
     static void
@@ -179,4 +179,4 @@ private:
 
 
 }
-#endif //RESTBED_XMR_YOURMONEROREQUESTS_H
+#endif //RESTBED_XMR_YOURWORKTIPSREQUESTS_H

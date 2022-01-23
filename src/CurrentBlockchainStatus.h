@@ -78,7 +78,7 @@ public:
     update_current_blockchain_height();
 
     virtual bool
-    init_monero_blockchain();
+    init_worktips_blockchain();
 
     // inject TxUnlockChecker object
     // its simplifies mocking its behavior in our
@@ -326,7 +326,7 @@ public:
 
 protected:
 
-    // parameters used to connect/read monero blockchain
+    // parameters used to connect/read worktips blockchain
     BlockchainSetup bc_setup;
 
     // since this class monitors current status
@@ -338,7 +338,7 @@ protected:
     std::unique_ptr<MicroCore> mcore;
 
     // this class is also the only class which can
-    // use talk to monero deamon using RPC.
+    // use talk to worktips deamon using RPC.
     std::unique_ptr<RPCCalls> rpc;
     
     // any operation required to use blockchain
