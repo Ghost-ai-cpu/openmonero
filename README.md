@@ -1,4 +1,4 @@
-# OpenWorktips - a fully open sourced implementation of MyWorktips backend
+#  Worktips-web-wallet - a fully open sourced implementation of MyMonero backend
 
 In this example [restbed](https://github.com/Corvusoft/restbed/) is used to
 demonstrate how to provide Worktips related JSON REST service. For this purpose,
