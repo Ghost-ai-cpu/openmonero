@@ -29,18 +29,9 @@ to MyWorktips. They include:
 
 ## Live stagenet version
 
-- [http://139.162.60.17:81](http://139.162.60.17:81) - down for now.
-- [http://139.162.60.17:8100](http://139.162.60.17:8100) - MyWorktips frontend - down for now.
-
 This is OpenWorktips running on stagnet network. You can use it to play around with it.
 Please note that the live version is running on cheap VPS, which may result in
 performance issues.
-
-
-## Current development version
-
-All current changes, bug fixes and updates are done in the
-[branch](https://github.com/worktipsexamples/openworktips/tree/devel).
 
 
 ## Screenshot
